@@ -1,3 +1,32 @@
+# Comparison of Different Regularization and Variable Selection Techniques
+In this project, you will apply and compare the different regularization techniques including Ridge, LASSO, Elastic Net, SCAD, and Square Root Lasso.   
+
+You should address the following points:
+
+Create your own sklearn compliant functions for Square Root Lasso and SCAD so you could use them in conjunction with GridSearchCV for finding optimal hyper-parameters when data such as xx and yy are given.
+
+Simulate 100100 data sets, each with 12001200 features, 200200 observations and a toeplitz correlation structure such that the correlation between features ii and jj is approximately \rho^{|i-j|}ρ 
+∣i−j∣
+  with \rho=0.8ρ=0.8. For the dependent variable yy consider the following functional relationship:
+y = x\beta^* + \sigma\epsilon
+y=xβ 
+∗
+ +σϵ
+where \sigma=3.5σ=3.5, \epsilonϵ is a column vector with \epsilon_i\in\mathcal{N}(0,1)ϵ 
+i
+ ∈N(0,1) (that is to say \epsilon_iϵ 
+i
+  is normally distributed) and
+\beta^* = (\underbrace{1,1,...,1}_{7\,\text{times}},\underbrace{0,0...,0}_{25\,\text{times}},\underbrace{0.25,0.25...,0.25}_{5\,\text{times}}, \underbrace{0,0...,0}_{50\,\text{times}},\underbrace{0.7,0.7...,0.7}_{15\,\text{times}},\underbrace{0,0...,0}_{1098\,\text{times}})^T
+
+
+Apply the variable selection methods that we discussed in-class such as Ridge, Lasso, Elastic Net, SCAD and Square Root Lasso with GridSearchCV (for tuning the hyper-parameters) and record the final results , such as the overall (on average) quality of reconstructing the sparsity pattern and the coefficients of \beta^*β 
+∗
+ . The final results should include the average number of true non-zero coefficients discovered by each method, the L2 distance to the ideal solution and the Root Mean Squared Error.
+
+
+
+
 # Concepts and Applications of Multiple Boosting and LightGBM
 
 ### LightGBM
