@@ -2,22 +2,6 @@
 In this project, I will apply and compare the different regularization techniques including **Ridge, LASSO, Elastic Net, SCAD, and Square Root Lasso**.
 
 
-1. Create your own sklearn compliant functions for **SCAD and Square Root Lasso**, so you could use them in conjunction with **GridSearchCV** for finding optimal hyper-parameters when data such as x and y are given.
-
-
-2. Simulate 100 data sets, each with 1200 features, 200 observations and a toeplitz correlation structure such that the correlation between features i and j is approximately ρ∣i−j∣ with ρ=0.8.    
-For the dependent variable y consider the following functional relationship:   
-y = xβ* + σϵ      
-where σ=3.5, ϵ is a column vector with ϵi ∈N(0,1) (that is to say ϵi is normally distributed) and   
- 
-<img width="634" alt="image" src="https://user-images.githubusercontent.com/98488324/162596179-c940e997-f1d9-49ac-bea1-cd308826c98f.png">
-
-
-3. Apply the variable selection methods that we discussed in-class such as **Ridge, Lasso, Elastic Net, SCAD, and Square Root Lasso** with **GridSearchCV (for tuning the hyper-parameters)**   
-and record the final results, **such as the overall (on average) quality of reconstructing the sparsity pattern and the coefficients of β***.   
-The final results should include the average number of true non-zero coefficients discovered by each method, the L2 distance to the ideal solution, and the Root Mean Squared Error.
-
-
 ### 1. Sklearn Compliant Functions for SCAD and Square Root Lasso
 Create my own sklearn compliant functions for **SCAD and Square Root Lasso**, so I could use them in conjunction with **GridSearchCV** for finding optimal hyper-parameters when data such as x and y are given.
 
