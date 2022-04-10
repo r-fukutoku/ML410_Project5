@@ -2,7 +2,7 @@
 In this project, I will apply and compare the different regularization techniques including **Ridge, LASSO, Elastic Net, SCAD, and Square Root Lasso**.
 
 
-### 1. Sklearn Compliant Functions for SCAD and Square Root Lasso
+## 1. Sklearn Compliant Functions for SCAD and Square Root Lasso
 Create my own sklearn compliant functions for **SCAD and Square Root Lasso**, so I could use them in conjunction with **GridSearchCV** for finding optimal hyper-parameters when data such as x and y are given.
 
 
@@ -122,7 +122,7 @@ def scad_derivative(beta_hat, lambda_val, a_val):
 ```
 
 
-### 2. Simulate data sets
+## 2. Simulate data sets
 Simulate 100 data sets, each with 1200 features, 200 observations and a toeplitz correlation structure such that the correlation between features i and j is approximately ρ∣i−j∣ with ρ=0.8.    
 For the dependent variable y consider the following functional relationship:   
 y = xβ* + σϵ      
@@ -157,21 +157,45 @@ y = np.matmul(x,beta_star).reshape(-1,1) + sigma*np.random.normal(0,1,size=(n,1)
 ```
 
 
-### 3. Apply Regressions and Variable Selection Methods
+## 3. Apply Regressions and Variable Selection Methods
 Apply the variable selection methods that we discussed in-class such as **Ridge, Lasso, Elastic Net, SCAD, and Square Root Lasso** with **GridSearchCV (for tuning the hyper-parameters)**   
 and record the final results, **such as the overall (on average) quality of reconstructing the sparsity pattern and the coefficients of β***.   
 The final results should include the average number of true non-zero coefficients discovered by each method, the L2 distance to the ideal solution, and the Root Mean Squared Error.
 
+```python
+model = Ridge(alpha=10)
+model.fit(x,y)
+model.coef_
+
+grid = GridSearchCV(estimator=model,cv=10,scoring='neg_mean_squared_error',param_grid={'alpha': np.linspace(0, 1, 20)})
+print(grid.fit(x,y))
+grid_results = grid.fit(x,y)
+print(grid_results.best_params_)
+print('The mean square error is: ', np.abs(grid_results.best_score_))
 
 
 
+```
 
-#### Final Results: 
-* MSE = mean square error
 
-The Cross-validated MSE for LWR is : 164.98028444123733       
-The Cross-validated MSE for RF is : 167.14334994759085       
-The Cross-validated MSE for XGB is : 168.4544855884694       
+
+### Final Results: 
+
+{'alpha': 0.0}
+The mean square error for Ridge is: 35.9727200236592
+
+
+{'alpha': 0.7368421052631579}
+The mean square error for Elastic Net is: 15.854581370337865
+
+{'alpha': 0.21052631578947367}
+The mean square error for Lasso is: 15.979340142738845
+
+{'alpha': 0.15789473684210525}
+The mean square error for SQRT Lasso is: 15.026424585803081
+
+
+The mean square error for SCAD is: 
      
 
 Since we aim to minimize the cross-validated mean square error (MSE) for the better results, I conclude that the Boosted Lowess with Random Forest achieved the best result compared to all other regressions, which include not only the simple regressions such as regular Lowess, Random Forest, and Extreme Gradient Boosting (XGBoost), but also the Boosted LWR with Decision Tree and Boosted LWR with XGBoost. 
