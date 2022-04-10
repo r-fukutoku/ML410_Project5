@@ -2,7 +2,7 @@
 In this project, I will apply and compare the different regularization techniques including **Ridge, LASSO, Elastic Net, SCAD, and Square Root Lasso**.
 
 
-## 1. Sklearn Compliant Functions for SCAD and Square Root Lasso
+## 1. Create Sklearn Compliant Functions for SCAD and Square Root Lasso
 Create my own sklearn compliant functions for **SCAD and Square Root Lasso**, so I could use them in conjunction with **GridSearchCV** for finding optimal hyper-parameters when data such as x and y are given.
 
 
