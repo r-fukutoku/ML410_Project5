@@ -2,7 +2,7 @@
 In this project, I will apply and compare the different regularization techniques including **Ridge, LASSO, Elastic Net, SCAD, and Square Root Lasso**.
 
 
-## 1. Create Sklearn Compliant Functions for SCAD and Square Root Lasso
+### 1. Create Sklearn Compliant Functions for SCAD and Square Root Lasso
 Create my own sklearn compliant functions for **SCAD and Square Root Lasso**, so I could use them in conjunction with **GridSearchCV** for finding optimal hyper-parameters when data such as x and y are given.
 
 
@@ -121,7 +121,7 @@ def scad_derivative(beta_hat, lambda_val, a_val):
 ```
 
 
-## 2. Simulate Data Sets
+### 2. Simulate Data Sets
 Simulate 100 data sets, each with 1200 features, 200 observations and a toeplitz correlation structure such that the correlation between features i and j is approximately <img width="43" alt="image" src="https://user-images.githubusercontent.com/98488324/162596738-99139dcd-a36e-4284-bac6-7d5117ca1c48.png"> with<img width="66" alt="image" src="https://user-images.githubusercontent.com/98488324/162596771-90313643-f476-41ea-b4a5-5bb7924cb808.png">.    
 
 For the dependent variable y consider the following functional relationship:   
@@ -157,7 +157,7 @@ y = np.matmul(x,beta_star).reshape(-1,1) + sigma*np.random.normal(0,1,size=(n,1)
 ```
 
 
-## 3. Apply Regressions and Variable Selection Methods
+### 3. Apply Regressions and Variable Selection Methods
 Apply the variable selection methods that we discussed in-class such as **Ridge, Lasso, Elastic Net, SCAD, and Square Root Lasso** with **GridSearchCV (for tuning the hyper-parameters)** and record the final results, **such as the overall (on average) quality of reconstructing the sparsity pattern and the coefficients of β***.   
 The final results should include the average number of true non-zero coefficients discovered by each method, the L2 distance to the ideal solution, and the Root Mean Squared Error.
 
