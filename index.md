@@ -95,7 +95,6 @@ class SCAD(BaseEstimator, RegressorMixin):
           output = -2/n*np.transpose(x).dot(y-x.dot(beta))+scad_derivative(beta,lam,a)
           return output.flatten()
         
-        
         beta0 = np.zeros(p)
         output = minimize(scad, beta0, method='L-BFGS-B', jac=dscad,options={'gtol': 1e-8, 'maxiter': 50000,'maxls': 50,'disp': False})
         beta = output.x
