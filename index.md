@@ -158,8 +158,7 @@ y = np.matmul(x,beta_star).reshape(-1,1) + sigma*np.random.normal(0,1,size=(n,1)
 
 
 ## 3. Apply Regressions and Variable Selection Methods
-Apply the variable selection methods that we discussed in-class such as **Ridge, Lasso, Elastic Net, SCAD, and Square Root Lasso** with **GridSearchCV (for tuning the hyper-parameters)**   
-and record the final results, **such as the overall (on average) quality of reconstructing the sparsity pattern and the coefficients of β***.   
+Apply the variable selection methods that we discussed in-class such as **Ridge, Lasso, Elastic Net, SCAD, and Square Root Lasso** with **GridSearchCV (for tuning the hyper-parameters)** and record the final results, **such as the overall (on average) quality of reconstructing the sparsity pattern and the coefficients of β***.   
 The final results should include the average number of true non-zero coefficients discovered by each method, the L2 distance to the ideal solution, and the Root Mean Squared Error.
 
 ```python
@@ -198,7 +197,7 @@ The mean square error for SQRT Lasso is:  15.026424585803081
 The mean square error for SCAD is:  
      
 
-Since we aim to minimize the cross-validated mean square error (MSE) for the better results, I conclude that the Boosted Lowess with Random Forest achieved the best result compared to all other regressions, which include not only the simple regressions such as regular Lowess, Random Forest, and Extreme Gradient Boosting (XGBoost), but also the Boosted LWR with Decision Tree and Boosted LWR with XGBoost. 
+Since we aim to minimize the mean square error (MSE) for the better results, I conclude that the Square Root Lasso achieved the best result compared to all other regressions. 
 
 
 
