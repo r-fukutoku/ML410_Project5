@@ -123,11 +123,11 @@ def scad_derivative(beta_hat, lambda_val, a_val):
 
 
 ## 2. Simulate Data Sets
-Simulate 100 data sets, each with 1200 features, 200 observations and a toeplitz correlation structure such that the correlation between features i and j is approximately <img width="43" alt="image" src="https://user-images.githubusercontent.com/98488324/162596738-99139dcd-a36e-4284-bac6-7d5117ca1c48.png"> with <img width="13" alt="image" src="https://user-images.githubusercontent.com/98488324/162596747-43fb0978-b5b3-434c-b6ec-af1599f2f1f8.png">
-ρ=0.8.    
+Simulate 100 data sets, each with 1200 features, 200 observations and a toeplitz correlation structure such that the correlation between features i and j is approximately <img width="43" alt="image" src="https://user-images.githubusercontent.com/98488324/162596738-99139dcd-a36e-4284-bac6-7d5117ca1c48.png"> with<img width="66" alt="image" src="https://user-images.githubusercontent.com/98488324/162596771-90313643-f476-41ea-b4a5-5bb7924cb808.png">.    
+
 For the dependent variable y consider the following functional relationship:   
 <img width="151" alt="image" src="https://user-images.githubusercontent.com/98488324/162596725-7155c6bc-a5de-4e5e-9bf5-0f34c0d07c6e.png">   
-where σ=3.5, ϵ is a column vector with ϵi ∈N(0,1) (that is to say ϵi is normally distributed) and   
+where <img width="83" alt="image" src="https://user-images.githubusercontent.com/98488324/162596803-6fe9f3e3-b367-4434-bff9-feb3e2eb7133.png"> is a column vector with <img width="102" alt="image" src="https://user-images.githubusercontent.com/98488324/162596796-9b0638b5-ab29-4d23-8386-eb4f0a949bb0.png"> (that is to say ϵi is normally distributed) and   
  
 <img width="634" alt="image" src="https://user-images.githubusercontent.com/98488324/162596179-c940e997-f1d9-49ac-bea1-cd308826c98f.png">
 
