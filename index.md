@@ -1,332 +1,199 @@
 # Comparison of Different Regularization and Variable Selection Techniques
-In this project, I will apply and compare the different regularization techniques including Ridge, LASSO, Elastic Net, SCAD, and Square Root Lasso.   
-
-You should address the following points:
-
-1. Create your own sklearn compliant functions for Square Root Lasso and SCAD so you could use them in conjunction with GridSearchCV for finding optimal hyper-parameters when data such as xx and yy are given.
-
-2. Simulate 100 data sets, each with 1200 features, 200 observations and a toeplitz correlation structure such that the correlation between features ii and jj is approximately \rho^{|i-j|}ρ ∣i−j∣
-  with \rho=0.8ρ=0.8. For the dependent variable yy consider the following functional relationship:
-y = x\beta^* + \sigma\epsilon
-y=xβ 
-∗
- +σϵ
-where \sigma=3.5σ=3.5, \epsilonϵ is a column vector with \epsilon_i\in\mathcal{N}(0,1)ϵ 
-i
- ∈N(0,1) (that is to say \epsilon_iϵ 
-i
-  is normally distributed) and
-\beta^* = (\underbrace{1,1,...,1}_{7\,\text{times}},\underbrace{0,0...,0}_{25\,\text{times}},\underbrace{0.25,0.25...,0.25}_{5\,\text{times}}, \underbrace{0,0...,0}_{50\,\text{times}},\underbrace{0.7,0.7...,0.7}_{15\,\text{times}},\underbrace{0,0...,0}_{1098\,\text{times}})^T
+In this project, I will apply and compare the different regularization techniques including **Ridge, LASSO, Elastic Net, SCAD, and Square Root Lasso**.
 
 
-3. Apply the variable selection methods that we discussed in-class such as Ridge, Lasso, Elastic Net, SCAD and Square Root Lasso with GridSearchCV (for tuning the hyper-parameters) and record the final results , such as the overall (on average) quality of reconstructing the sparsity pattern and the coefficients of \beta^*β 
-∗
- . The final results should include the average number of true non-zero coefficients discovered by each method, the L2 distance to the ideal solution and the Root Mean Squared Error.
+1. Create your own sklearn compliant functions for **SCAD and Square Root Lasso**, so you could use them in conjunction with **GridSearchCV** for finding optimal hyper-parameters when data such as x and y are given.
 
 
+2. Simulate 100 data sets, each with 1200 features, 200 observations and a toeplitz correlation structure such that the correlation between features i and j is approximately ρ∣i−j∣ with ρ=0.8.    
+For the dependent variable y consider the following functional relationship:   
+y = xβ* + σϵ      
+where σ=3.5, ϵ is a column vector with ϵi ∈N(0,1) (that is to say ϵi is normally distributed) and   
+ 
+<img width="634" alt="image" src="https://user-images.githubusercontent.com/98488324/162596179-c940e997-f1d9-49ac-bea1-cd308826c98f.png">
 
 
-# Concepts and Applications of Multiple Boosting and LightGBM
-
-### LightGBM
-LightGBM is a fast, powerful, high-performance gradient boosting framework based on decision tree algorithm. It is used for ranking, regression, classification, and many other machine learning tasks.
-
-Since it is based on decision tree algorithms, it splits the tree leaf wise with the best fit (the tree grows vertically), whereas other boosting algorithms split the tree depth wise or level wise (their trees grow horizontally). Therefore, when growing on the same leaf in Light GBM, the leaf-wise algorithm can reduce more loss than the level-wise algorithm and hence results in much better accuracy which can rarely be achieved by any of the existing boosting algorithms. 
-
-Level-wise tree growth in XGBOOST:
-
-<img width="724" alt="image" src="https://user-images.githubusercontent.com/98488324/156966728-56bb89bf-cadd-4e80-9b1a-d9a00ca4623e.png">
-
-Leaf-wise tree growth in LightGBM:
-
-<img width="796" alt="image" src="https://user-images.githubusercontent.com/98488324/156966754-a40a439b-7364-4cc8-85da-7fe520dfd817.png">
-
-LightGBM is called “Light” because of its computation power and giving results faster. It takes less memory to run and is able to deal with large volumes of data having more than 10,000+ rows, especially when one needs to achieve a high accuracy of results. It is not for a small volume of datasets as it can easily overfit small data due to its sensitivity. It is the most widely used algorithm in Hackathons since the motive of the algorithm is to get good accuracy of results and also brace GPU leaning.
+3. Apply the variable selection methods that we discussed in-class such as **Ridge, Lasso, Elastic Net, SCAD, and Square Root Lasso** with **GridSearchCV (for tuning the hyper-parameters)**   
+and record the final results, **such as the overall (on average) quality of reconstructing the sparsity pattern and the coefficients of β***.   
+The final results should include the average number of true non-zero coefficients discovered by each method, the L2 distance to the ideal solution, and the Root Mean Squared Error.
 
 
+### 1. Sklearn Compliant Functions for SCAD and Square Root Lasso
+Create my own sklearn compliant functions for **SCAD and Square Root Lasso**, so I could use them in conjunction with **GridSearchCV** for finding optimal hyper-parameters when data such as x and y are given.
 
-## Applications with Real Data
-Concrete Compressive Strength dataset (output variable (y) is the concrete_compressive_strength): 
-
-```python
-import numpy as np
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-import pandas as pd
-from google.colab import drive
-drive.mount('/content/drive')
-df = pd.read_csv("drive/MyDrive/DATA410_AdvML/concrete_data.csv")
-```
-<img width="1035" alt="image" src="https://user-images.githubusercontent.com/98488324/156958221-05f272ba-d0c2-4039-b604-084cb57311e7.png">
-
-
-### Multiple Boosting
-Boosting is an ensemble meta-algorithm for primarily reducing bias, and Multiple Boosting algorithm boosts the regression analysis by using the combinations of different regressors. 
 
 Import libraries and create functions:
 
 ```python
-# import libraries
-from scipy.linalg import lstsq
-from scipy.sparse.linalg import lsmr
-from scipy.interpolate import interp1d, griddata, LinearNDInterpolator, NearestNDInterpolator
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import KFold, train_test_split
-from sklearn.metrics import mean_squared_error as mse
-from sklearn.preprocessing import StandardScaler
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.linear_model import LinearRegression, Lasso, Ridge, ElasticNet
-import xgboost as xgb
+%matplotlib inline
+%config InlineBackend.figure_format = 'retina'
+import matplotlib as mpl
+mpl.rcParams['figure.dpi'] = 150
 
-# Tricubic Kernel
-def Tricubic(x):
-  if len(x.shape) == 1:
-    x = x.reshape(-1,1)
-  d = np.sqrt(np.sum(x**2,axis=1))
-  return np.where(d>1,0,70/81*(1-d**3)**3)
+import numpy as np
+import pandas as pd
+from math import ceil
+from scipy import linalg
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+from sklearn.metrics import mean_absolute_error
+from sklearn.datasets import make_spd_matrix
+import matplotlib.pyplot as plt
+from scipy.optimize import minimize
+from scipy.linalg import toeplitz
+from matplotlib import pyplot
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import KFold
 
-# Quartic Kernel
-def Quartic(x):
-  if len(x.shape) == 1:
-    x = x.reshape(-1,1)
-  d = np.sqrt(np.sum(x**2,axis=1))
-  return np.where(d>1,0,15/16*(1-d**2)**2)
+from scipy.optimize import minimize
+from sklearn.base import BaseEstimator, RegressorMixin
+from numba import njit
 
-# Epanechnikov Kernel
-def Epanechnikov(x):
-  if len(x.shape) == 1:
-    x = x.reshape(-1,1)
-  d = np.sqrt(np.sum(x**2,axis=1))
-  return np.where(d>1,0,3/4*(1-d**2)) 
+
+# Square Root Lasso
+class SQRTLasso(BaseEstimator, RegressorMixin):
+    def __init__(self, alpha=0.01):
+        self.alpha = alpha
   
-# Lowess regression model
-def lw_reg(X, y, xnew, kern, tau, intercept):
-    # tau is called bandwidth K((x-x[i])/(2*tau))
-    n = len(X) # the number of observations
-    yest = np.zeros(n)
+    def fit(self, x, y):
+        alpha=self.alpha
+        @njit
+        def f_obj(x,y,beta,alpha):
+          n =len(x)
+          beta = beta.flatten()
+          beta = beta.reshape(-1,1)
+          output = np.sqrt(1/n*np.sum((y-x.dot(beta))**2)) + alpha*np.sum(np.abs(beta))
+          return output
+        @njit
+        def f_grad(x,y,beta,alpha):
+          n=x.shape[0]
+          p=x.shape[1]
+          beta = beta.flatten()
+          beta = beta.reshape(-1,1)
+          output = (-1/np.sqrt(n))*np.transpose(x).dot(y-x.dot(beta))/np.sqrt(np.sum((y-x.dot(beta))**2))+alpha*np.sign(beta)
+          return output.flatten()
+        
+        def objective(beta):
+          return(f_obj(x,y,beta,alpha))
+        
+        def gradient(beta):
+          return(f_grad(x,y,beta,alpha))
+        
+        beta0 = np.ones((x.shape[1],1))
+        output = minimize(objective, beta0, method='L-BFGS-B', jac=gradient,options={'gtol': 1e-8, 'maxiter': 50000,'maxls': 25,'disp': True})
+        beta = output.x
+        self.coef_ = beta
+        
+    def predict(self, x):
+        return x.dot(self.coef_)
 
-    if len(y.shape)==1: # here we make column vectors
-      y = y.reshape(-1,1)
-    if len(X.shape)==1:
-      X = X.reshape(-1,1)
-    if intercept:
-      X1 = np.column_stack([np.ones((len(X),1)),X])
-    else:
-      X1 = X
 
-    w = np.array([kern((X - X[i])/(2*tau)) for i in range(n)]) # here we compute n vectors of weights
-
-    # looping through all X-points
-    for i in range(n):          
-        W = np.diag(w[:,i])
-        b = np.transpose(X1).dot(W).dot(y)
-        A = np.transpose(X1).dot(W).dot(X1)
-        # A = A + 0.001*np.eye(X1.shape[1]) # if we want L2 regularization
-        # theta = linalg.solve(A, b) # A*theta = b
-        beta, res, rnk, s = lstsq(A, b)
-        yest[i] = np.dot(X1[i],beta)
-    if X.shape[1]==1:
-      f = interp1d(X.flatten(),yest,fill_value='extrapolate')
-    else:
-      f = LinearNDInterpolator(X, yest)
-    output = f(xnew)      # the output may have NaN's where the data points from xnew are outside the convex hull of X
-    if sum(np.isnan(output))>0:
-      g = NearestNDInterpolator(X,y.ravel()) 
-      # output[np.isnan(output)] = g(X[np.isnan(output)])
-      output[np.isnan(output)] = g(xnew[np.isnan(output)])
-    return output
-
-# Booster for the multiple boosting
-def booster(X, y, xnew, kern, tau, model_boosting, nboost):
-  Fx = lw_reg(X,y,X,kern,tau,True)
-  Fx_new = lw_reg(X,y,xnew,kern,tau,True)
-  new_y = y - Fx
-  output = Fx
-  output_new = Fx_new
-  for i in range(nboost):
-    model_boosting.fit(X,new_y)
-    output += model_boosting.predict(X)
-    output_new += model_boosting.predict(xnew)
-    new_y = y - output
-  return output_new
+# SCAD
+class SCAD(BaseEstimator, RegressorMixin):
+    def __init__(self, a=2,lam=1):
+        self.a, self.lam = a, lam
   
-# Boosted lowess regression model
-def boosted_lwr(X, y, xnew, kern, tau, intercept):
-  # we need decision trees
-  # for training the boosted method we use X and y
-  Fx = lw_reg(X,y,X,kern,tau,intercept) # we need this for training the Decision Tree
-  # now train the Decision Tree on y_i - F(x_i)
-  new_y = y - Fx
-  # model = DecisionTreeRegressor(max_depth=2, random_state=123)
-  model = RandomForestRegressor(n_estimators=100,max_depth=2)
-  # model = model_xgb
-  model.fit(X,new_y)
-  output = model.predict(xnew) + lw_reg(X,y,xnew,kern,tau,intercept)
-  return output
+    def fit(self, x, y):
+        a = self.a
+        lam   = self.lam
+
+        @njit
+        def scad(beta):
+          beta = beta.flatten()
+          beta = beta.reshape(-1,1)
+          n = len(y)
+          return 1/n*np.sum((y-x.dot(beta))**2) + np.sum(scad_penalty(beta,lam,a))
+
+        @njit  
+        def dscad(beta):
+          beta = beta.flatten()
+          beta = beta.reshape(-1,1)
+          n = len(y)
+          output = -2/n*np.transpose(x).dot(y-x.dot(beta))+scad_derivative(beta,lam,a)
+          return output.flatten()
+        
+        
+        beta0 = np.zeros(p)
+        output = minimize(scad, beta0, method='L-BFGS-B', jac=dscad,options={'gtol': 1e-8, 'maxiter': 50000,'maxls': 50,'disp': False})
+        beta = output.x
+        self.coef_ = beta
+        
+    def predict(self, x):
+        return x.dot(self.coef_)
+ 
+ 
+@njit
+def scad_penalty(beta_hat, lambda_val, a_val):
+    is_linear = (np.abs(beta_hat) <= lambda_val)
+    is_quadratic = np.logical_and(lambda_val < np.abs(beta_hat), np.abs(beta_hat) <= a_val * lambda_val)
+    is_constant = (a_val * lambda_val) < np.abs(beta_hat)
+    
+    linear_part = lambda_val * np.abs(beta_hat) * is_linear
+    quadratic_part = (2 * a_val * lambda_val * np.abs(beta_hat) - beta_hat**2 - lambda_val**2) / (2 * (a_val - 1)) * is_quadratic
+    constant_part = (lambda_val**2 * (a_val + 1)) / 2 * is_constant
+    return linear_part + quadratic_part + constant_part
+
+@njit    
+def scad_derivative(beta_hat, lambda_val, a_val):
+    return lambda_val * ((beta_hat <= lambda_val) + (a_val * lambda_val - beta_hat)*((a_val * lambda_val - beta_hat) > 0) / ((a_val - 1) * lambda_val) * (beta_hat > lambda_val))
 ```
 
 
-#### Apply Concrete Data:
+### 2. Simulate data sets
+Simulate 100 data sets, each with 1200 features, 200 observations and a toeplitz correlation structure such that the correlation between features i and j is approximately ρ∣i−j∣ with ρ=0.8.    
+For the dependent variable y consider the following functional relationship:   
+y = xβ* + σϵ      
+where σ=3.5, ϵ is a column vector with ϵi ∈N(0,1) (that is to say ϵi is normally distributed) and   
+ 
+<img width="634" alt="image" src="https://user-images.githubusercontent.com/98488324/162596179-c940e997-f1d9-49ac-bea1-cd308826c98f.png">
+
 
 ```python
-# load the variables
-X = df[['cement', 'water', 'coarse_aggregate']].values
-y = df['concrete_compressive_strength'].values
-xtrain, xtest, ytrain, ytest = train_test_split(X,y,test_size=0.25, random_state=123)
+# 1200 features, 200 observations
+n = 200
+p = 1200
 
-scale = StandardScaler()
+# B*
+beta_star = np.concatenate(([1]*7,[0]*25,[0.25]*5,[0]*50,[0.7]*15,[0]*1098))
 
-
-# Simple nested cross-validations
-mse_lwr = []
-mse_rf = []
-mse_xgb = []
-# mse_nn = []
-# mse_NW = []
-
-for i in range(3):
-  # k-fold cross-validation for a even lower bias predictive modeling
-  kf = KFold(n_splits=10,shuffle=True,random_state=i)
-
-  # the main Cross-Validation Loop
-  for idxtrain, idxtest in kf.split(X):
-    xtrain = X[idxtrain]
-    ytrain = y[idxtrain]
-    ytest = y[idxtest]
-    xtest = X[idxtest]
-    xtrain = scale.fit_transform(xtrain)
-    xtest = scale.transform(xtest)
-    dat_train = np.concatenate([xtrain,ytrain.reshape(-1,1)],axis=1)
-    dat_test = np.concatenate([xtest,ytest.reshape(-1,1)],axis=1)
-
-    yhat_lwr = lw_reg(xtrain,ytrain,xtest,Epanechnikov,tau=0.9,intercept=True)
-    model_rf = RandomForestRegressor(n_estimators=100,max_depth=3)
-    model_rf.fit(xtrain,ytrain)
-    yhat_rf = model_rf.predict(xtest)
-    model_xgb = xgb.XGBRegressor(objective ='reg:squarederror',n_estimators=100,reg_lambda=20,alpha=1,gamma=10,max_depth=1)
-    model_xgb.fit(xtrain,ytrain)
-    yhat_xgb = model_xgb.predict(xtest)
-    # model_nn.fit(xtrain,ytrain,validation_split=0.2, epochs=500, batch_size=10, verbose=0, callbacks=[es])
-    # yhat_nn = model_nn.predict(xtest)
-    # here is the application of the N-W regressor
-    # model_KernReg = KernelReg(endog=dat_train[:,-1],exog=dat_train[:,:-1],var_type='ccc',ckertype='gaussian')
-    # yhat_sm, yhat_std = model_KernReg.fit(dat_test[:,:-1])
-
-    mse_lwr.append(mse(ytest,yhat_lwr))
-    mse_rf.append(mse(ytest,yhat_rf))
-    mse_xgb.append(mse(ytest,yhat_xgb))
-    # mse_nn.append(mse(ytest,yhat_nn))
-    # mse_NW.append(mse(ytest,yhat_sm))
-    
-print('The Cross-validated MSE for LWR is : '+str(np.mean(mse_lwr)))
-print('The Cross-validated MSE for RF is : '+str(np.mean(mse_rf)))
-print('The Cross-validated MSE for XGB is : '+str(np.mean(mse_xgb)))
-# print('The Cross-validated MSEr for NN is : '+str(np.mean(mse_nn)))
-# print('The Cross-validated MSE for Nadarya-Watson Regressor is : '+str(np.mean(mse_NW)))
-
-
-# Multiple boosting algorithm, which boosts the regression analysis by using the combinations of different regressors
-model_boosting_rf = RandomForestRegressor(n_estimators=100,max_depth=3)
-model_boosting_dt = DecisionTreeRegressor(max_depth=2, random_state=123)
-model_boosting_xgb = xgb.XGBRegressor(objective ='reg:squarederror',n_estimators=100,reg_lambda=20,alpha=1,gamma=10,max_depth=1)
-
-# Multiple boosted cross-validations
-mse_blwr_rf = []
-mse_blwr_dt = []
-mse_blwr_xgb = []
-
-for i in range(3):
-  # k-fold cross validation for a even lower bias predictive modeling
-  kf = KFold(n_splits=10,shuffle=True,random_state=i)
+# ρ=0.8
+# we need toeplitz([1,0.8,0.8**2,0.8**3,0.8**4,...0.8**1199])
+v = []
+for i in range(p):
+  v.append(0.8**i)
   
-  # the main cross-validation Loop
-  for idxtrain, idxtest in kf.split(X):
-    xtrain = X[idxtrain]
-    ytrain = y[idxtrain]
-    ytest = y[idxtest]
-    xtest = X[idxtest]
-    xtrain = scale.fit_transform(xtrain)
-    xtest = scale.transform(xtest)
-    dat_train = np.concatenate([xtrain,ytrain.reshape(-1,1)],axis=1)
-    dat_test = np.concatenate([xtest,ytest.reshape(-1,1)],axis=1)
+# σ=3.5
+mu = [0]*p
+sigma = 3.5
+# Generate the random samples
+np.random.seed(123)
+x = np.random.multivariate_normal(mu, toeplitz(v), size=n) # this where we generate some fake data
+#y = X.dot(beta) + sigma*np.random.normal(0,1,[num_samples,1])
+y = np.matmul(x,beta_star).reshape(-1,1) + sigma*np.random.normal(0,1,size=(n,1))
 
-    yhat_blwr_rf = boosted_lwr(xtrain,ytrain,xtest,Tricubic,1,True,model_boosting_rf,2)
-    yhat_blwr_dt = boosted_lwr(xtrain,ytrain,xtest,Tricubic,1,True,model_boosting_dt,2)
-    yhat_blwr_xgb = boosted_lwr(xtrain,ytrain,xtest,Tricubic,1,True,model_boosting_xgb,2)
-
-    mse_blwr_rf.append(mse(ytest,yhat_blwr_rf))
-    mse_blwr_dt.append(mse(ytest,yhat_blwr_dt))
-    mse_blwr_xgb.append(mse(ytest,yhat_blwr_xgb))
-
-print('The Cross-validated MSE for Boosted LWR with Random Forest is : '+str(np.mean(mse_blwr_rf)))
-print('The Cross-validated MSE for Boosted LWR with Decision Tree is : '+str(np.mean(mse_blwr_dt)))
-print('The Cross-validated MSE for Boosted LWR with XGBoost is : '+str(np.mean(mse_blwr_xgb)))
 ```
+
+
+### 3. Apply Regressions and Variable Selection Methods
+Apply the variable selection methods that we discussed in-class such as **Ridge, Lasso, Elastic Net, SCAD, and Square Root Lasso** with **GridSearchCV (for tuning the hyper-parameters)**   
+and record the final results, **such as the overall (on average) quality of reconstructing the sparsity pattern and the coefficients of β***.   
+The final results should include the average number of true non-zero coefficients discovered by each method, the L2 distance to the ideal solution, and the Root Mean Squared Error.
+
+
+
+
 
 #### Final Results: 
 * MSE = mean square error
 
-___Simple Regression:___        
 The Cross-validated MSE for LWR is : 164.98028444123733       
 The Cross-validated MSE for RF is : 167.14334994759085       
 The Cross-validated MSE for XGB is : 168.4544855884694       
-
-___Multiple Boosting:___        
-The Cross-validated MSE for Boosted LWR with Random Forest is : 156.3043144868844       
-The Cross-validated MSE for Boosted LWR with Decision Tree is : 165.13235870354328        
-The Cross-validated MSE for Boosted LWR with XGBoost is : 159.55883222184173         
+     
 
 Since we aim to minimize the cross-validated mean square error (MSE) for the better results, I conclude that the Boosted Lowess with Random Forest achieved the best result compared to all other regressions, which include not only the simple regressions such as regular Lowess, Random Forest, and Extreme Gradient Boosting (XGBoost), but also the Boosted LWR with Decision Tree and Boosted LWR with XGBoost. 
 
 
 
-### LightGBM Regression
-Apply LightGBM algorithm on the same Concrete data:
-
-```python
-import lightgbm as lgb
-
-mse_lgb = []
-
-for i in range(3):
-  # k-fold cross-validation for a even lower bias predictive modeling
-  kf = KFold(n_splits=10,shuffle=True,random_state=i)
-  
-  # the main cross-validation Loop
-  for idxtrain, idxtest in kf.split(X):
-    xtrain = X[idxtrain]
-    ytrain = y[idxtrain]
-    ytest = y[idxtest]
-    xtest = X[idxtest]
-    xtrain = scale.fit_transform(xtrain)
-    xtest = scale.transform(xtest)
-    dat_train = np.concatenate([xtrain,ytrain.reshape(-1,1)],axis=1)
-    dat_test = np.concatenate([xtest,ytest.reshape(-1,1)],axis=1)
-
-    model_lgb = lgb.LGBMRegressor()
-    model_lgb.fit(xtrain,ytrain)
-    yhat_lgb = model_lgb.predict(xtest)
-    mse_lgb.append(mse(ytest,yhat_lgb))
-  print('The Cross-validated MSE for LightGBM is : '+str(np.mean(mse_lgb)))
-```
-
-#### Final Results: 
-The Cross-validated MSE for LightGBM is : 166.5815119572038      
-The Cross-validated MSE for LightGBM is : 165.93064825754243      
-The Cross-validated MSE for LightGBM is : 166.8056405710257       
--> The average Cross-validated MSE of these three results is : 166.43926692859065
-
-I expected for lightGBM to indicate the best MSE result in this project, but on the contrary lightGBM did not achieve any better results than most of other regressions I conducted including simple regressions (Lowess, Random Forest, and Extreme Gradient Boosting (XGBoost)) and multiple boosting (Boosted Lowess with Random Forest, Boosted LWR with Decision Tree, and Boosted LWR with XGBoost).
-
-
-
-## References
-
-Dua, D. and Graff, C. (2019). UCI Machine Learning Repository [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.
-
-Dwivedi, R. (Jun 26, 2020). What is LightGBM Algorithm, How to use it? Analytics Steps [https://www.analyticssteps.com/blogs/what-light-gbm-algorithm-how-use-it].
-
-Bachman, E. (June 12, 2017). Which algorithm takes the crown: Light GBM vs XGBOOST? Analytics Vidhya [https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/].
 
 ##### Jekyll Themes
 Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/r-fukutoku/Project2/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
