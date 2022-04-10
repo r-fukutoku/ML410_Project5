@@ -122,7 +122,7 @@ def scad_derivative(beta_hat, lambda_val, a_val):
 ```
 
 
-## 2. Simulate data sets
+## 2. Simulate Data Sets
 Simulate 100 data sets, each with 1200 features, 200 observations and a toeplitz correlation structure such that the correlation between features i and j is approximately ρ∣i−j∣ with ρ=0.8.    
 For the dependent variable y consider the following functional relationship:   
 y = xβ* + σϵ      
@@ -181,21 +181,21 @@ print('The mean square error is: ', np.abs(grid_results.best_score_))
 
 ### Final Results: 
 
-{'alpha': 0.0}
-The mean square error for Ridge is: 35.9727200236592
+{'alpha': 0.0}   
+The mean square error for Ridge is:  35.9727200236592
 
 
-{'alpha': 0.7368421052631579}
-The mean square error for Elastic Net is: 15.854581370337865
+{'alpha': 0.7368421052631579}   
+The mean square error for Elastic Net is:  15.854581370337865
 
-{'alpha': 0.21052631578947367}
-The mean square error for Lasso is: 15.979340142738845
+{'alpha': 0.21052631578947367}   
+The mean square error for Lasso is:  15.979340142738845
 
-{'alpha': 0.15789473684210525}
-The mean square error for SQRT Lasso is: 15.026424585803081
+{'alpha': 0.15789473684210525}   
+The mean square error for SQRT Lasso is:  15.026424585803081
 
 
-The mean square error for SCAD is: 
+The mean square error for SCAD is:  
      
 
 Since we aim to minimize the cross-validated mean square error (MSE) for the better results, I conclude that the Boosted Lowess with Random Forest achieved the best result compared to all other regressions, which include not only the simple regressions such as regular Lowess, Random Forest, and Extreme Gradient Boosting (XGBoost), but also the Boosted LWR with Decision Tree and Boosted LWR with XGBoost. 
