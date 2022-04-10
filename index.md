@@ -125,7 +125,8 @@ def scad_derivative(beta_hat, lambda_val, a_val):
 ## 2. Simulate Data Sets
 Simulate 100 data sets, each with 1200 features, 200 observations and a toeplitz correlation structure such that the correlation between features i and j is approximately ρ∣i−j∣ with ρ=0.8.    
 For the dependent variable y consider the following functional relationship:   
-y = xβ* + σϵ      
+<img width="132" alt="image" src="https://user-images.githubusercontent.com/98488324/162596698-5c55bd4a-3b9a-4ade-80de-3ee61bb772ac.png">
+
 where σ=3.5, ϵ is a column vector with ϵi ∈N(0,1) (that is to say ϵi is normally distributed) and   
  
 <img width="634" alt="image" src="https://user-images.githubusercontent.com/98488324/162596179-c940e997-f1d9-49ac-bea1-cd308826c98f.png">
