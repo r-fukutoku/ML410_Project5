@@ -167,8 +167,6 @@ Apply the variable selection methods such as **Ridge, Lasso, Elastic Net, Square
 The final results include the average number of true non-zero coefficients discovered by each method, the L2 distance to the ideal solution, and the Root Mean Squared Error.
 
 ```python
-# 2 datasets
-
 for i in range(2):
   # Ridge
   model_ridge = Ridge(alpha=10)
@@ -280,7 +278,7 @@ The average number of true non-zero coefficients for SCAD is:  1200
 
 
 
-**Since we aim to minimize the mean square error (MSE) for the better results, I conclude that the Elastic Net achieved the best result compared to  other the variable selection methods such as Ridge, Lasso, Elastic Net, and SCAD. Elastic Net also has the best L2 value out of all regressions.**
+**Since we aim to minimize the mean square error (MSE) for the better results, I conclude that the Elastic Net achieved the best result compared to other variable selection methods such as Ridge, Lasso, Square Root Lasso, and SCAD although the MSE of Square Root Lasso was nearly as good as the Elastic Net's MSE. Elastic Net also has the best L2 value out of all regressions.**
 
 
 
