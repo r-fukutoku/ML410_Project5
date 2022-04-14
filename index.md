@@ -239,21 +239,21 @@ print('The L2 for SCAD is: ', np.linalg.norm((betahat_scad-beta_star), ord=2))
 ### Final Results: 
 
 ___Ridge:___   
-B̂ (Coefficients of B*): 
+B̂ (Coefficients of B*): [ 0.72309017,  0.80814089,  0.68618491, ..., -0.07410177, -0.05327676, -0.0454597 ]
 The average number of true non-zero coefficients for Ridge is:  1200   
 The optimal hyper-parameter for Ridge is:  {'alpha': 0.0}   
 The mean square error for Ridge is:  35.9727200236592   
 The L2 for Ridge is:  2.9767672732983126   
 
 ___Lasso:___   
-B̂ (Coefficients of B*): [ 0.72309017,  0.80814089,  0.68618491, ..., -0.07410177, -0.05327676, -0.0454597 ]
+B̂ (Coefficients of B*): 
 The average number of true non-zero coefficients for Lasso is:  146   
 The optimal hyper-parameter for Lasso is:  {'alpha': 0.21052631578947367}   
 The mean square error for Lasso is:  15.979340142738845   
 The L2 for Lasso is:  3.9375975290985736   
 
 ___Elastic Net:___   
-B̂ (Coefficients of B*): [ 1.09958876,  1.89168061,  0.5217372 , ..., -0.        ,-0.        , -0.        ]
+B̂ (Coefficients of B*): [ 1.09958876,  1.89168061,  0.5217372 , ..., -0.        ,-0.        , -0.        ]   
 The average number of true non-zero coefficients for ElasticNet is:  147   
 The optimal hyper-parameter for ElasticNet is:  {'alpha': 0.7368421052631579}   
 The mean square error for ElasticNet is:  15.854581370337865   
@@ -267,7 +267,7 @@ The mean square error for SQRT Lasso is:  15.026424585803081
 The L2 for SQRT Lasso is:  2.021002999805211   
 
 ___SCAD:___   
-B̂ (Coefficients of B*): [0.18914786,  0.19739721,  0.20131751, ..., -0.04041534, -0.03022174, -0.03186249]
+B̂ (Coefficients of B*): [ 0.18914786,  0.19739721,  0.20131751, ..., -0.04041534, -0.03022174, -0.03186249]   
 The average number of true non-zero coefficients for SCAD is:  1200   
 
 
