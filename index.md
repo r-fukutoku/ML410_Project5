@@ -238,31 +238,31 @@ print('The L2 for SCAD is: ', np.linalg.norm((betahat_scad-beta_star), ord=2))
 
 ### Final Results: 
 
-___Ridge___
+___Ridge:___   
 The average number of true non-zero coefficients for Ridge is:  1200   
 The optimal hyper-parameter for Ridge is:  {'alpha': 0.0}   
 The mean square error for Ridge is:  35.9727200236592   
 The L2 for Ridge is:  2.9767672732983126   
 
-__Lasso__
+___Lasso:___   
 The average number of true non-zero coefficients for Lasso is:  146   
 The optimal hyper-parameter for Lasso is:  {'alpha': 0.21052631578947367}   
 The mean square error for Lasso is:  15.979340142738845   
 The L2 for Lasso is:  3.9375975290985736   
 
-_Elastic Net_
+___Elastic Net:___   
 The average number of true non-zero coefficients for ElasticNet is:  147   
 The optimal hyper-parameter for ElasticNet is:  {'alpha': 0.7368421052631579}   
 The mean square error for ElasticNet is:  15.854581370337865   
 The L2 for ElasticNet is:  2.668379467426268   
 
-__Square Root Lasso__
+___Square Root Lasso:___   
 The average number of true non-zero coefficients for SQRT Lasso is:  1200   
 The optimal hyper-parameter for SQRT Lasso is:  {'alpha': 0.15789473684210525}   
 The mean square error for SQRT Lasso is:  15.026424585803081   
 The L2 for SQRT Lasso is:  2.021002999805211   
 
-__SCAD__
+___SCAD:___   
 The average number of true non-zero coefficients for SCAD is:  1200   
 
 
