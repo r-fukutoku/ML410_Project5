@@ -1,12 +1,12 @@
 # Comparison of Different Regularization and Variable Selection Techniques
-In this project, I will apply and compare the different regularization techniques including **Ridge, LASSO, Elastic Net, SCAD, and Square Root Lasso**.
+In this project, I will apply and compare the different regularization techniques including **Ridge, Lasso, Elastic Net, Square Root Lasso, and SCAD**.
 
 
-### 1. Create Sklearn Compliant Functions for SCAD and Square Root Lasso
+### 1. Create Sklearn Compliant Functions for Square Root Lasso and SCAD
 Create my own sklearn compliant functions for **SCAD and Square Root Lasso**, so I could use them in conjunction with **GridSearchCV** for finding optimal hyper-parameters when data such as x and y are given.
 
 
-Import libraries and create functions:
+Import libraries:
 
 ```python
 %matplotlib inline
@@ -31,8 +31,11 @@ from sklearn.model_selection import KFold
 from scipy.optimize import minimize
 from sklearn.base import BaseEstimator, RegressorMixin
 from numba import njit
+```
 
+Create functions:
 
+```python
 # Square Root Lasso
 class SQRTLasso(BaseEstimator, RegressorMixin):
     def __init__(self, alpha=0.01):
@@ -123,7 +126,7 @@ def scad_derivative(beta_hat, lambda_val, a_val):
 
 
 ### 2. Simulate Data Sets
-Simulate 100 data sets, each with 1200 features, 200 observations and a toeplitz correlation structure such that the correlation between features i and j is approximately <img width="43" alt="image" src="https://user-images.githubusercontent.com/98488324/162596738-99139dcd-a36e-4284-bac6-7d5117ca1c48.png"> with<img width="66" alt="image" src="https://user-images.githubusercontent.com/98488324/162596771-90313643-f476-41ea-b4a5-5bb7924cb808.png">.    
+Simulate 3 data sets, each with 1200 features, 200 observations and a toeplitz correlation structure such that the correlation between features i and j is approximately <img width="43" alt="image" src="https://user-images.githubusercontent.com/98488324/162596738-99139dcd-a36e-4284-bac6-7d5117ca1c48.png"> with<img width="66" alt="image" src="https://user-images.githubusercontent.com/98488324/162596771-90313643-f476-41ea-b4a5-5bb7924cb808.png">.    
 
 For the dependent variable y consider the following functional relationship:   
 <img width="151" alt="image" src="https://user-images.githubusercontent.com/98488324/162596725-7155c6bc-a5de-4e5e-9bf5-0f34c0d07c6e.png">   
@@ -140,15 +143,16 @@ p = 1200
 # B*
 beta_star = np.concatenate(([1]*7,[0]*25,[0.25]*5,[0]*50,[0.7]*15,[0]*1098))
 
-# ρ=0.8
+# ρ = 0.8
 # we need toeplitz([1,0.8,0.8**2,0.8**3,0.8**4,...0.8**1199])
 v = []
 for i in range(p):
   v.append(0.8**i)
   
-# σ=3.5
+# σ = 3.5
 mu = [0]*p
 sigma = 3.5
+
 # Generate the random samples
 np.random.seed(123)
 x = np.random.multivariate_normal(mu, toeplitz(v), size=n) # this where we generate some fake data
@@ -159,8 +163,8 @@ y = np.matmul(x,beta_star).reshape(-1,1) + sigma*np.random.normal(0,1,size=(n,1)
 
 
 ### 3. Apply Regressions and Variable Selection Methods
-Apply the variable selection methods that we discussed in-class such as **Ridge, Lasso, Elastic Net, SCAD, and Square Root Lasso** with **GridSearchCV (for tuning the hyper-parameters)** and record the final results, **such as the overall (on average) quality of reconstructing the sparsity pattern and the coefficients of β***.   
-The final results should include the average number of true non-zero coefficients discovered by each method, the L2 distance to the ideal solution, and the Root Mean Squared Error.
+Apply the variable selection methods that we discussed in-class such as **Ridge, Lasso, Elastic Net, Square Root Lasso, and SCAD** with **GridSearchCV (for tuning the hyper-parameters)** and record the final results, **such as the overall (on average) quality of reconstructing the sparsity pattern and the coefficients of β***.   
+The final results include the average number of true non-zero coefficients discovered by each method, the L2 distance to the ideal solution, and the Root Mean Squared Error.
 
 ```python
 # Ridge
@@ -176,6 +180,19 @@ print('The optimal hyper-parameter for Ridge is: ', grid_results_ridge.best_para
 print('The mean square error for Ridge is: ', np.abs(grid_results_ridge.best_score_))
 print('The L2 for Ridge is: ', np.linalg.norm((betahat_ridge-beta_star), ord=2))
 
+# Lasso
+model_lasso = Lasso(alpha=0.1)
+model_lasso.fit(x,y)
+betahat_lasso = model_lasso.coef_
+pos_lasso = np.where(betahat_lasso != 0)
+print('The average number of true non-zero coefficients for Lasso is: ', np.array(pos_lasso).shape[1])
+grid_lasso = GridSearchCV(estimator=model_lasso,cv=10,scoring='neg_mean_squared_error',param_grid={'alpha': np.linspace(0, 1, 20)})
+# print(grid_lasso.fit(x,y))
+grid_results_lasso = grid_lasso.fit(x,y)
+print('The optimal hyper-parameter for Lasso is: ', grid_results_lasso.best_params_)
+print('The mean square error for Lasso is: ', np.abs(grid_results_lasso.best_score_))
+print('The L2 for Lasso is: ', np.linalg.norm((betahat_lasso-beta_star), ord=2))
+
 # Elastic Net
 model_elasticnet = ElasticNet(alpha=0.2,l1_ratio=0.75)
 # model_elasticnet = ElasticNet()
@@ -189,19 +206,6 @@ grid_results_elasticnet = grid_elasticnet.fit(x,y)
 print('The optimal hyper-parameter for ElasticNet is: ', grid_results_elasticnet.best_params_)
 print('The mean square error for ElasticNet is: ', np.abs(grid_results_elasticnet.best_score_))
 print('The L2 for ElasticNet is: ', np.linalg.norm((betahat_elasticnet-beta_star), ord=2))
-
-# Lasso
-model_lasso = Lasso(alpha=0.1)
-model_lasso.fit(x,y)
-betahat_lasso = model_lasso.coef_
-pos_lasso = np.where(betahat_lasso != 0)
-print('The average number of true non-zero coefficients for Lasso is: ', np.array(pos_lasso).shape[1])
-grid_lasso = GridSearchCV(estimator=model_lasso,cv=10,scoring='neg_mean_squared_error',param_grid={'alpha': np.linspace(0, 1, 20)})
-# print(grid_lasso.fit(x,y))
-grid_results_lasso = grid_lasso.fit(x,y)
-print('The optimal hyper-parameter for Lasso is: ', grid_results_lasso.best_params_)
-print('The mean square error for Lasso is: ', np.abs(grid_results_lasso.best_score_))
-print('The L2 for Lasso is: ', np.linalg.norm((betahat_lasso-beta_star), ord=2))
 
 # Square Root Lasso
 model_sqrtlasso = SQRTLasso(alpha=0.1)
@@ -234,27 +238,28 @@ print('The L2 for SCAD is: ', np.linalg.norm((betahat_scad-beta_star), ord=2))
 
 ### Final Results: 
 
-The average number of true non-zero coefficients for Ridge is:  1200
-The optimal hyper-parameter for Ridge is:  {'alpha': 0.0}
-The mean square error for Ridge is:  35.9727200236592
-The L2 for Ridge is:  2.9767672732983126
+The average number of true non-zero coefficients for Ridge is:  1200   
+The optimal hyper-parameter for Ridge is:  {'alpha': 0.0}   
+The mean square error for Ridge is:  35.9727200236592   
+The L2 for Ridge is:  2.9767672732983126   
 
-The average number of true non-zero coefficients for ElasticNet is:  147
-The optimal hyper-parameter for ElasticNet is:  {'alpha': 0.7368421052631579}
-The mean square error for ElasticNet is:  15.854581370337865
-The L2 for ElasticNet is:  2.668379467426268
+The average number of true non-zero coefficients for Lasso is:  146   
+The optimal hyper-parameter for Lasso is:  {'alpha': 0.21052631578947367}   
+The mean square error for Lasso is:  15.979340142738845   
+The L2 for Lasso is:  3.9375975290985736   
 
-The average number of true non-zero coefficients for Lasso is:  146
-The optimal hyper-parameter for Lasso is:  {'alpha': 0.21052631578947367}
-The mean square error for Lasso is:  15.979340142738845
-The L2 for Lasso is:  3.9375975290985736
+The average number of true non-zero coefficients for ElasticNet is:  147   
+The optimal hyper-parameter for ElasticNet is:  {'alpha': 0.7368421052631579}   
+The mean square error for ElasticNet is:  15.854581370337865   
+The L2 for ElasticNet is:  2.668379467426268   
 
-The average number of true non-zero coefficients for SQRT Lasso is:  1200
-The optimal hyper-parameter for SQRT Lasso is:  {'alpha': 0.15789473684210525}
-The mean square error for SQRT Lasso is:  15.026424585803081
-The L2 for SQRT Lasso is:  2.021002999805211
 
-The average number of true non-zero coefficients for SCAD is:  1200
+The average number of true non-zero coefficients for SQRT Lasso is:  1200   
+The optimal hyper-parameter for SQRT Lasso is:  {'alpha': 0.15789473684210525}   
+The mean square error for SQRT Lasso is:  15.026424585803081   
+The L2 for SQRT Lasso is:  2.021002999805211   
+
+The average number of true non-zero coefficients for SCAD is:  1200   
 
 
 
