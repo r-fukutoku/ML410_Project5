@@ -156,8 +156,8 @@ sigma = 3.5
 # Generate the random samples
 np.random.seed(123)
 x = np.random.multivariate_normal(mu, toeplitz(v), size=n) # this where we generate some fake data
-# y = X.dot(beta) + sigma*np.random.normal(0,1,[num_samples,1])
 y = np.matmul(x,beta_star).reshape(-1,1) + sigma*np.random.normal(0,1,size=(n,1))
+# y = X.dot(beta) + sigma*np.random.normal(0,1,[num_samples,1])
 
 ```
 
