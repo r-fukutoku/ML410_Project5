@@ -217,7 +217,7 @@ for j in range(1):
   model_sqrtlasso = SQRTLasso(alpha=0.1)
   model_sqrtlasso.fit(x,y)
   betahat_sqrtlasso = model_sqrtlasso.coef_
-  print('B̂ (Coefficients of B*) for SQRT Lasso: ', model_sqrtlasso)
+  print('B̂ (Coefficients of B*) for SQRT Lasso: ', betahat_sqrtlasso)
   pos_sqrtlasso = np.where(betahat_sqrtlasso != 0)
   print('The average number of true non-zero coefficients for SQRT Lasso is: ', np.array(pos_sqrtlasso).shape[1])
   grid_sqrtlasso = GridSearchCV(estimator=model_sqrtlasso,cv=10,scoring='neg_mean_squared_error',param_grid={'alpha': np.linspace(0, 1, 20)})
