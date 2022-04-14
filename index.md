@@ -167,71 +167,79 @@ Apply the variable selection methods such as **Ridge, Lasso, Elastic Net, Square
 The final results include the average number of true non-zero coefficients discovered by each method, the L2 distance to the ideal solution, and the Root Mean Squared Error.
 
 ```python
-# Ridge
-model_ridge = Ridge(alpha=10)
-model_ridge.fit(x,y)
-betahat_ridge = model_ridge.coef_
-pos_ridge = np.where(betahat_ridge != 0)
-print('The average number of true non-zero coefficients for Ridge is: ', np.array(pos_ridge).shape[1])
-grid_ridge = GridSearchCV(estimator=model_ridge,cv=10,scoring='neg_mean_squared_error',param_grid={'alpha': np.linspace(0, 1, 20)})
-# print(grid_ridge.fit(x,y))
-grid_results_ridge = grid_ridge.fit(x,y)
-print('The optimal hyper-parameter for Ridge is: ', grid_results_ridge.best_params_)
-print('The mean square error for Ridge is: ', np.abs(grid_results_ridge.best_score_))
-print('The L2 for Ridge is: ', np.linalg.norm((betahat_ridge-beta_star), ord=2))
+# 2 datasets
 
-# Lasso
-model_lasso = Lasso(alpha=0.1)
-model_lasso.fit(x,y)
-betahat_lasso = model_lasso.coef_
-pos_lasso = np.where(betahat_lasso != 0)
-print('The average number of true non-zero coefficients for Lasso is: ', np.array(pos_lasso).shape[1])
-grid_lasso = GridSearchCV(estimator=model_lasso,cv=10,scoring='neg_mean_squared_error',param_grid={'alpha': np.linspace(0, 1, 20)})
-# print(grid_lasso.fit(x,y))
-grid_results_lasso = grid_lasso.fit(x,y)
-print('The optimal hyper-parameter for Lasso is: ', grid_results_lasso.best_params_)
-print('The mean square error for Lasso is: ', np.abs(grid_results_lasso.best_score_))
-print('The L2 for Lasso is: ', np.linalg.norm((betahat_lasso-beta_star), ord=2))
+for j in range(1):
+  # Ridge
+  model_ridge = Ridge(alpha=10)
+  model_ridge.fit(x,y)
+  betahat_ridge = model_ridge.coef_
+  print('B̂ (Coefficients of B*) for Ridge: ', betahat_ridge)
+  pos_ridge = np.where(betahat_ridge != 0)
+  print('The average number of true non-zero coefficients for Ridge is: ', np.array(pos_ridge).shape[1])
+  grid_ridge = GridSearchCV(estimator=model_ridge,cv=10,scoring='neg_mean_squared_error',param_grid={'alpha': np.linspace(0, 1, 20)})
+  # print(grid_ridge.fit(x,y))
+  grid_results_ridge = grid_ridge.fit(x,y)
+  print('The optimal hyper-parameter for Ridge is: ', grid_results_ridge.best_params_)
+  print('The mean square error for Ridge is: ', np.abs(grid_results_ridge.best_score_))
+  print('The L2 for Ridge is: ', np.linalg.norm((betahat_ridge-beta_star), ord=2))
 
-# Elastic Net
-model_elasticnet = ElasticNet(alpha=0.2,l1_ratio=0.75)
-# model_elasticnet = ElasticNet()
-model_elasticnet.fit(x,y)
-betahat_elasticnet = model_elasticnet.coef_
-pos_elasticnet = np.where(betahat_elasticnet != 0)
-print('The average number of true non-zero coefficients for ElasticNet is: ', np.array(pos_elasticnet).shape[1])
-grid_elasticnet = GridSearchCV(estimator=model_elasticnet,cv=10,scoring='neg_mean_squared_error',param_grid={'alpha': np.linspace(0, 1, 20)})
-# print(grid_elasticnet.fit(x,y))
-grid_results_elasticnet = grid_elasticnet.fit(x,y)
-print('The optimal hyper-parameter for ElasticNet is: ', grid_results_elasticnet.best_params_)
-print('The mean square error for ElasticNet is: ', np.abs(grid_results_elasticnet.best_score_))
-print('The L2 for ElasticNet is: ', np.linalg.norm((betahat_elasticnet-beta_star), ord=2))
+  # Lasso
+  model_lasso = Lasso(alpha=0.1)
+  model_lasso.fit(x,y)
+  betahat_lasso = model_lasso.coef_
+  print('B̂ (Coefficients of B*) for Lasso: ', betahat_lasso)
+  pos_lasso = np.where(betahat_lasso != 0)
+  print('The average number of true non-zero coefficients for Lasso is: ', np.array(pos_lasso).shape[1])
+  grid_lasso = GridSearchCV(estimator=model_lasso,cv=10,scoring='neg_mean_squared_error',param_grid={'alpha': np.linspace(0, 1, 20)})
+  # print(grid_lasso.fit(x,y))
+  grid_results_lasso = grid_lasso.fit(x,y)
+  print('The optimal hyper-parameter for Lasso is: ', grid_results_lasso.best_params_)
+  print('The mean square error for Lasso is: ', np.abs(grid_results_lasso.best_score_))
+  print('The L2 for Lasso is: ', np.linalg.norm((betahat_lasso-beta_star), ord=2))
 
-# Square Root Lasso
-model_sqrtlasso = SQRTLasso(alpha=0.1)
-model_sqrtlasso.fit(x,y)
-betahat_sqrtlasso = model_sqrtlasso.coef_
-pos_sqrtlasso = np.where(betahat_sqrtlasso != 0)
-print('The average number of true non-zero coefficients for SQRT Lasso is: ', np.array(pos_sqrtlasso).shape[1])
-grid_sqrtlasso = GridSearchCV(estimator=model_sqrtlasso,cv=10,scoring='neg_mean_squared_error',param_grid={'alpha': np.linspace(0, 1, 20)})
-# print(grid_sqrtlasso.fit(x,y))
-grid_results_sqrtlasso = grid_sqrtlasso.fit(x,y)
-print('The optimal hyper-parameter for SQRT Lasso is: ', grid_results_sqrtlasso.best_params_)
-print('The mean square error for SQRT Lasso is: ', np.abs(grid_results_sqrtlasso.best_score_))
-print('The L2 for SQRT Lasso is: ', np.linalg.norm((betahat_sqrtlasso-beta_star), ord=2))
+  # Elastic Net
+  model_elasticnet = ElasticNet(alpha=0.2,l1_ratio=0.75)
+  # model_elasticnet = ElasticNet()
+  model_elasticnet.fit(x,y)
+  betahat_elasticnet = model_elasticnet.coef_
+  print('B̂ (Coefficients of B*) for ElasticNet: ', betahat_elasticnet)
+  pos_elasticnet = np.where(betahat_elasticnet != 0)
+  print('The average number of true non-zero coefficients for ElasticNet is: ', np.array(pos_elasticnet).shape[1])
+  grid_elasticnet = GridSearchCV(estimator=model_elasticnet,cv=10,scoring='neg_mean_squared_error',param_grid={'alpha': np.linspace(0, 1, 20)})
+  # print(grid_elasticnet.fit(x,y))
+  grid_results_elasticnet = grid_elasticnet.fit(x,y)
+  print('The optimal hyper-parameter for ElasticNet is: ', grid_results_elasticnet.best_params_)
+  print('The mean square error for ElasticNet is: ', np.abs(grid_results_elasticnet.best_score_))
+  print('The L2 for ElasticNet is: ', np.linalg.norm((betahat_elasticnet-beta_star), ord=2))
 
-# SCAD
-model_scad = SCAD(a=2,lam=1)
-model_scad.fit(x,y)
-betahat_scad = model_scad.coef_
-pos_scad = np.where(betahat_scad != 0)
-print('The average number of true non-zero coefficients for SCAD is: ', np.array(pos_scad).shape[1])
-grid_scad = GridSearchCV(estimator=model_scad,cv=10,scoring='neg_mean_squared_error',param_grid={'a': np.linspace(0, 1, 20), 'lam': np.linspace(0, 1, 20)})
-# print(grid_scad.fit(x,y))
-grid_results_scad = grid_scad.fit(x,y)
-print('The optimal hyper-parameter for SCAD is: ', grid_results_scad.best_params_)
-print('The mean square error for SCAD is: ', np.abs(grid_results_scad.best_score_))
-print('The L2 for SCAD is: ', np.linalg.norm((betahat_scad-beta_star), ord=2))
+  # Square Root Lasso
+  model_sqrtlasso = SQRTLasso(alpha=0.1)
+  model_sqrtlasso.fit(x,y)
+  betahat_sqrtlasso = model_sqrtlasso.coef_
+  print('B̂ (Coefficients of B*) for SQRT Lasso: ', model_sqrtlasso)
+  pos_sqrtlasso = np.where(betahat_sqrtlasso != 0)
+  print('The average number of true non-zero coefficients for SQRT Lasso is: ', np.array(pos_sqrtlasso).shape[1])
+  grid_sqrtlasso = GridSearchCV(estimator=model_sqrtlasso,cv=10,scoring='neg_mean_squared_error',param_grid={'alpha': np.linspace(0, 1, 20)})
+  # print(grid_sqrtlasso.fit(x,y))
+  grid_results_sqrtlasso = grid_sqrtlasso.fit(x,y)
+  print('The optimal hyper-parameter for SQRT Lasso is: ', grid_results_sqrtlasso.best_params_)
+  print('The mean square error for SQRT Lasso is: ', np.abs(grid_results_sqrtlasso.best_score_))
+  print('The L2 for SQRT Lasso is: ', np.linalg.norm((betahat_sqrtlasso-beta_star), ord=2))
+
+  # SCAD
+  model_scad = SCAD(a=2,lam=1)
+  model_scad.fit(x,y)
+  betahat_scad = model_scad.coef_
+  print('B̂ (Coefficients of B*) for SCAD: ', betahat_scad)
+  pos_scad = np.where(betahat_scad != 0)
+  print('The average number of true non-zero coefficients for SCAD is: ', np.array(pos_scad).shape[1])
+  grid_scad = GridSearchCV(estimator=model_scad,cv=10,scoring='neg_mean_squared_error',param_grid={'a': np.linspace(0, 1, 20), 'lam': np.linspace(0, 1, 20)})
+  # print(grid_scad.fit(x,y))
+  grid_results_scad = grid_scad.fit(x,y)
+  print('The optimal hyper-parameter for SCAD is: ', grid_results_scad.best_params_)
+  print('The mean square error for SCAD is: ', np.abs(grid_results_scad.best_score_))
+  print('The L2 for SCAD is: ', np.linalg.norm((betahat_scad-beta_star), ord=2))
 
 ```
 
@@ -239,35 +247,35 @@ print('The L2 for SCAD is: ', np.linalg.norm((betahat_scad-beta_star), ord=2))
 ### Final Results: 
 
 ___Ridge:___   
-B̂ (Coefficients of B*): [ 0.72309017,  0.80814089,  0.68618491, ..., -0.07410177, -0.05327676, -0.0454597 ]   
+B̂ (Coefficients of B*) for Ridge: [ 0.72309017,  0.80814089,  0.68618491, ..., -0.07410177, -0.05327676, -0.0454597 ]   
 The average number of true non-zero coefficients for Ridge is:  1200   
 The optimal hyper-parameter for Ridge is:  {'alpha': 0.0}   
 The mean square error for Ridge is:  35.9727200236592   
 The L2 for Ridge is:  2.9767672732983126   
 
 ___Lasso:___   
-B̂ (Coefficients of B*): 
+B̂ (Coefficients of B*) for Lasso: [ 0.86667719,  2.61926535,  0.15155155, ... -0.         , -0.        , -0.        ]   
 The average number of true non-zero coefficients for Lasso is:  146   
 The optimal hyper-parameter for Lasso is:  {'alpha': 0.21052631578947367}   
 The mean square error for Lasso is:  15.979340142738845   
 The L2 for Lasso is:  3.9375975290985736   
 
 ___Elastic Net:___   
-B̂ (Coefficients of B*): [ 1.09958876,  1.89168061,  0.5217372 , ..., -0.        ,-0.        , -0.        ]   
+B̂ (Coefficients of B*) for ElasticNet: [ 1.09958876,  1.89168061,  0.5217372, ..., -0.        , -0.        , -0.        ]   
 The average number of true non-zero coefficients for ElasticNet is:  147   
 The optimal hyper-parameter for ElasticNet is:  {'alpha': 0.7368421052631579}   
 The mean square error for ElasticNet is:  15.854581370337865   
 The L2 for ElasticNet is:  2.668379467426268   
 
 ___Square Root Lasso:___   
-B̂ (Coefficients of B*): 
+B̂ (Coefficients of B*) for SQRT Lasso: [ 1.21229487e+00,  1.46690668e+00,  8.33538418e-01, ..., -6.60427298e-10, -1.16705356e-05, -1.98345762e-09 ]   
 The average number of true non-zero coefficients for SQRT Lasso is:  1200   
 The optimal hyper-parameter for SQRT Lasso is:  {'alpha': 0.15789473684210525}   
 The mean square error for SQRT Lasso is:  15.026424585803081   
 The L2 for SQRT Lasso is:  2.021002999805211   
 
 ___SCAD:___   
-B̂ (Coefficients of B*): [ 0.18914786,  0.19739721,  0.20131751, ..., -0.04041534, -0.03022174, -0.03186249 ]   
+B̂ (Coefficients of B*) for SCAD: [ 0.18914786,  0.19739721,  0.20131751, ..., -0.04041534, -0.03022174, -0.03186249 ]   
 The average number of true non-zero coefficients for SCAD is:  1200   
 
 
