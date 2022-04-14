@@ -239,7 +239,7 @@ print('The L2 for SCAD is: ', np.linalg.norm((betahat_scad-beta_star), ord=2))
 ### Final Results: 
 
 ___Ridge:___   
-B̂ (Coefficients of B*): [ 0.72309017,  0.80814089,  0.68618491, ..., -0.07410177, -0.05327676, -0.0454597 ]
+B̂ (Coefficients of B*): [ 0.72309017,  0.80814089,  0.68618491, ..., -0.07410177, -0.05327676, -0.0454597 ]   
 The average number of true non-zero coefficients for Ridge is:  1200   
 The optimal hyper-parameter for Ridge is:  {'alpha': 0.0}   
 The mean square error for Ridge is:  35.9727200236592   
@@ -267,7 +267,7 @@ The mean square error for SQRT Lasso is:  15.026424585803081
 The L2 for SQRT Lasso is:  2.021002999805211   
 
 ___SCAD:___   
-B̂ (Coefficients of B*): [ 0.18914786,  0.19739721,  0.20131751, ..., -0.04041534, -0.03022174, -0.03186249]   
+B̂ (Coefficients of B*): [ 0.18914786,  0.19739721,  0.20131751, ..., -0.04041534, -0.03022174, -0.03186249 ]   
 The average number of true non-zero coefficients for SCAD is:  1200   
 
 
