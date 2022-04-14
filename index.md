@@ -199,15 +199,14 @@ for j in range(2):
   print('The L2 for Lasso is: ', np.linalg.norm((betahat_lasso-beta_star), ord=2))
 
   # Elastic Net
-  model_elasticnet = ElasticNet(alpha=0.2,l1_ratio=0.75)
-  # model_elasticnet = ElasticNet()
+  # this takes long runtime due to the two parameters being optimised by GridSearchCV
+  model_elasticnet = ElasticNet()
   model_elasticnet.fit(x,y)
   betahat_elasticnet = model_elasticnet.coef_
   print('B̂ (Coefficients of B*) for ElasticNet: ', betahat_elasticnet)
   pos_elasticnet = np.where(betahat_elasticnet != 0)
   print('The average number of true non-zero coefficients for ElasticNet is: ', np.array(pos_elasticnet).shape[1])
-  grid_elasticnet = GridSearchCV(estimator=model_elasticnet,cv=10,scoring='neg_mean_squared_error',param_grid={'alpha': np.linspace(0, 1, 20)})
-  # print(grid_elasticnet.fit(x,y))
+  grid_elasticnet = GridSearchCV(estimator=model_elasticnet,cv=10,scoring='neg_mean_squared_error',param_grid={'alpha':np.linspace(0.001,1,num=50),'l1_ratio':np.linspace(0,1,num=50)})
   grid_results_elasticnet = grid_elasticnet.fit(x,y)
   print('The optimal hyper-parameter for ElasticNet is: ', grid_results_elasticnet.best_params_)
   print('The mean square error for ElasticNet is: ', np.abs(grid_results_elasticnet.best_score_))
@@ -228,6 +227,7 @@ for j in range(2):
   print('The L2 for SQRT Lasso is: ', np.linalg.norm((betahat_sqrtlasso-beta_star), ord=2))
 
   # SCAD
+  # this takes long runtime due to the two parameters being optimised by GridSearchCV
   model_scad = SCAD(a=2,lam=1)
   model_scad.fit(x,y)
   betahat_scad = model_scad.coef_
@@ -261,11 +261,11 @@ The mean square error for Lasso is:  15.979340142738845
 The L2 for Lasso is:  3.9375975290985736   
 
 ___Elastic Net:___   
-B̂ (Coefficients of B*) for ElasticNet: [ 1.09958876,  1.89168061,  0.5217372, ..., -0.        , -0.        , -0.        ]   
-The average number of true non-zero coefficients for ElasticNet is:  147   
-The optimal hyper-parameter for ElasticNet is:  {'alpha': 0.7368421052631579}   
-The mean square error for ElasticNet is:  15.854581370337865   
-The L2 for ElasticNet is:  2.668379467426268   
+B̂ (Coefficients of B*) for ElasticNet:  [ 0.95263253,  1.15678714,  0.7349754,  ... -0.        , -0.         , -0.        ]
+The average number of true non-zero coefficients for ElasticNet is:  55
+The optimal hyper-parameter for ElasticNet is:  {'alpha': 0.001, 'l1_ratio': 0.836734693877551}
+The mean square error for ElasticNet is:  15.01536637774461
+The L2 for ElasticNet is:  1.3389008088833756 
 
 ___Square Root Lasso:___   
 B̂ (Coefficients of B*) for SQRT Lasso: [ 1.21229487e+00,  1.46690668e+00,  8.33538418e-01, ..., -6.60427298e-10, -1.16705356e-05, -1.98345762e-09 ]   
@@ -280,7 +280,7 @@ The average number of true non-zero coefficients for SCAD is:  1200
 
 
 
-**Since we aim to minimize the mean square error (MSE) for the better results, I conclude that the Square Root Lasso achieved the best result compared to  other the variable selection methods such as Ridge, Lasso, Elastic Net, and SCAD.**
+**Since we aim to minimize the mean square error (MSE) for the better results, I conclude that the Elastic Net achieved the best result compared to  other the variable selection methods such as Ridge, Lasso, Elastic Net, and SCAD.**
 
 
 
