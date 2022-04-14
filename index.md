@@ -3,7 +3,7 @@ In this project, I will apply and compare the different regularization technique
 
 
 ### 1. Create Sklearn Compliant Functions for Square Root Lasso and SCAD
-Create my own sklearn compliant functions for **SCAD and Square Root Lasso**, so I could use them in conjunction with **GridSearchCV** for finding optimal hyper-parameters when data such as x and y are given.
+Create my own sklearn compliant functions for SCAD and Square Root Lasso, so I could use them in conjunction with GridSearchCV for finding optimal hyper-parameters when data such as x and y are given.
 
 
 Import libraries:
@@ -163,7 +163,7 @@ y = np.matmul(x,beta_star).reshape(-1,1) + sigma*np.random.normal(0,1,size=(n,1)
 
 
 ### 3. Apply Regressions and Variable Selection Methods
-Apply the variable selection methods that we discussed in-class such as **Ridge, Lasso, Elastic Net, Square Root Lasso, and SCAD** with **GridSearchCV (for tuning the hyper-parameters)** and record the final results, such as the overall (on average) quality of reconstructing the sparsity pattern and the coefficients of β*.   
+Apply the variable selection methods such as **Ridge, Lasso, Elastic Net, Square Root Lasso, and SCAD** with **GridSearchCV (for tuning the hyper-parameters)** and record the final results, such as the overall (on average) quality of reconstructing the sparsity pattern and the coefficients of β*.   
 The final results include the average number of true non-zero coefficients discovered by each method, the L2 distance to the ideal solution, and the Root Mean Squared Error.
 
 ```python
