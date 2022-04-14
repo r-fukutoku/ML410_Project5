@@ -261,11 +261,11 @@ The mean square error for Lasso is:  15.979340142738845
 The L2 for Lasso is:  3.9375975290985736   
 
 ___Elastic Net:___   
-B̂ (Coefficients of B*) for ElasticNet:  [ 0.95263253,  1.15678714,  0.7349754,  ... -0.        , -0.         , -0.        ]
-The average number of true non-zero coefficients for ElasticNet is:  55
-The optimal hyper-parameter for ElasticNet is:  {'alpha': 0.001, 'l1_ratio': 0.836734693877551}
-The mean square error for ElasticNet is:  15.01536637774461
-The L2 for ElasticNet is:  1.3389008088833756 
+B̂ (Coefficients of B*) for ElasticNet:  [ 0.95263253,  1.15678714,  0.7349754,  ... -0.        , -0.         , -0.        ]   
+The average number of true non-zero coefficients for ElasticNet is:  55   
+The optimal hyper-parameter for ElasticNet is:  {'alpha': 0.001, 'l1_ratio': 0.836734693877551}   
+The mean square error for ElasticNet is:  15.01536637774461   
+The L2 for ElasticNet is:  1.3389008088833756    
 
 ___Square Root Lasso:___   
 B̂ (Coefficients of B*) for SQRT Lasso: [ 1.21229487e+00,  1.46690668e+00,  8.33538418e-01, ..., -6.60427298e-10, -1.16705356e-05, -1.98345762e-09 ]   
@@ -280,7 +280,7 @@ The average number of true non-zero coefficients for SCAD is:  1200
 
 
 
-**Since we aim to minimize the mean square error (MSE) for the better results, I conclude that the Elastic Net achieved the best result compared to  other the variable selection methods such as Ridge, Lasso, Elastic Net, and SCAD.**
+**Since we aim to minimize the mean square error (MSE) for the better results, I conclude that the Elastic Net achieved the best result compared to  other the variable selection methods such as Ridge, Lasso, Elastic Net, and SCAD. Elastic Net also has the best L2 value out of all regressions.**
 
 
 
