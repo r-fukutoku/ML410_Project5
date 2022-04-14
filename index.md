@@ -278,7 +278,7 @@ The average number of true non-zero coefficients for SCAD is:  1200
 
 
 
-**Since we aim to minimize the mean square error (MSE) for the better results, I conclude that the Elastic Net achieved the best result compared to other variable selection methods such as Ridge, Lasso, Square Root Lasso, and SCAD although the MSE of Square Root Lasso was nearly as good as the Elastic Net's MSE. Elastic Net also has the best L2 value out of all regressions.**
+**Since we aim to minimize the mean square error (MSE) for the better results, I conclude that the Elastic Net achieved the best result compared to other variable selection methods such as Ridge, Lasso, Square Root Lasso, and SCAD though the MSE for Square Root Lasso is nearly as good as the MSE for Elastic Net. Elastic Net also has the best L2 value out of all regressions.**
 
 
 
