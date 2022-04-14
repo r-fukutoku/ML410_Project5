@@ -228,7 +228,7 @@ for j in range(2):
 
   # SCAD
   # this takes long runtime due to the two parameters being optimised by GridSearchCV
-  model_scad = SCAD(a=2,lam=1)
+  model_scad = SCAD(alpha=2,lam=1)
   model_scad.fit(x,y)
   betahat_scad = model_scad.coef_
   print('B̂ (Coefficients of B*) for SCAD: ', betahat_scad)
