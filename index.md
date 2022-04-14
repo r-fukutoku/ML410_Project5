@@ -169,7 +169,7 @@ The final results include the average number of true non-zero coefficients disco
 ```python
 # 2 datasets
 
-for j in range(2):
+for i in range(2):
   # Ridge
   model_ridge = Ridge(alpha=10)
   model_ridge.fit(x,y)
@@ -234,7 +234,8 @@ for j in range(2):
   print('B̂ (Coefficients of B*) for SCAD: ', betahat_scad)
   pos_scad = np.where(betahat_scad != 0)
   print('The average number of true non-zero coefficients for SCAD is: ', np.array(pos_scad).shape[1])
-  grid_scad = GridSearchCV(estimator=model_scad,cv=10,scoring='neg_mean_squared_error',param_grid={'alpha': np.linspace(0, 1, 20), 'lam': np.linspace(0, 1, 20)})
+  grid_scad = GridSearchCV(estimator=model_scad,cv=10,scoring='neg_mean_squared_error',param_grid=\
+  {'alpha': np.linspace(0, 1, 20), 'lam': np.linspace(0, 1, 20)})
   # print(grid_scad.fit(x,y))
   grid_results_scad = grid_scad.fit(x,y)
   print('The optimal hyper-parameter for SCAD is: ', grid_results_scad.best_params_)
