@@ -280,7 +280,7 @@ The average number of true non-zero coefficients for SCAD is:  1200
 
 
 
-**Since we aim to minimize the mean square error (MSE) for the better results, I conclude that the Square Root Lasso achieved the best result compared to all other regressions.**
+**Since we aim to minimize the mean square error (MSE) for the better results, I conclude that the Square Root Lasso achieved the best result compared to  other the variable selection methods such as Ridge, Lasso, Elastic Net, and SCAD.**
 
 
 
