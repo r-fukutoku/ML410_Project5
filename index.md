@@ -224,7 +224,7 @@ print('The mean square error for SQRT Lasso is: ', np.abs(grid_results_sqrtlasso
 print('The L2 for SQRT Lasso is: ', np.linalg.norm((betahat_sqrtlasso-beta_star), ord=2))
 
 # SCAD
-# this takes long runtime due to the two parameters being optimised by GridSearchCV
+# this takes very long runtime due to the two parameters being optimised by GridSearchCV
 model_scad = SCAD(a=2,lam=1)
 model_scad.fit(x,y)
 betahat_scad = model_scad.coef_
