@@ -280,7 +280,7 @@ The L2 for SCAD is:  3.2619699756842326
 
 
 
-**Since we aim to minimize the mean square error (MSE) for the better results, I conclude that the Elastic Net achieved the best result compared to other variable selection methods such as Ridge, Lasso, Square Root Lasso, and SCAD though the MSE for Square Root Lasso is nearly as good as the MSE for Elastic Net. Elastic Net also has the best L2 value out of all regressions.**
+**Since we aim to minimize the mean square error (MSE) for the better results, I conclude that the Elastic Net achieved the best result compared to other variable selection methods including Ridge, Lasso, Square Root Lasso, and SCAD, while the MSE for Square Root Lasso is nearly as good as the MSE for Elastic Net. Elastic Net also has the best L2 value out of all regressions.**
 
 
 
