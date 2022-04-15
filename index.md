@@ -275,6 +275,9 @@ The L2 for SQRT Lasso is:  2.021002999805211
 ___SCAD:___   
 B̂ (Coefficients of B*) for SCAD: [ 0.18914786,  0.19739721,  0.20131751, ..., -0.04041534, -0.03022174, -0.03186249 ]   
 The average number of true non-zero coefficients for SCAD is:  1200   
+The optimal hyper-parameter for SCAD is:  {'a': 0.8421052631578947, 'lam': 0.05263157894736842}   
+The mean square error for SCAD is:  39.098101562347196   
+The L2 for SCAD is:  3.2619699756842326   
 
 
 
